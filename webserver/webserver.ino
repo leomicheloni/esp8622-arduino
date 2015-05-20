@@ -29,7 +29,12 @@ void blinkled()
 }
 void loop()
 {
-  if(esp8266.available()) // check if the esp is sending a message 
+  sendWebData("<h1>Hello</h1><h2>World!</h2>");
+}
+
+void sendWebData(String content)
+{
+    if(esp8266.available()) // check if the esp is sending a message 
   {    
     if(esp8266.find("+IPD,"))
     {
@@ -38,7 +43,7 @@ void loop()
      int connectionId = esp8266.read()-48; // subtract 48 because the read() function returns 
                                            // the ASCII decimal value and 0 (the first decimal number) starts at 48
      
-     String webpage = "<h1>Hello</h1><h2>World!</h2>";
+     String webpage = content;
  
      String cipSend = "AT+CIPSEND=";
      cipSend += connectionId;
@@ -56,6 +61,7 @@ void loop()
      sendData(closeCommand,3000,DEBUG);
     }
   }
+
 }
  
  
